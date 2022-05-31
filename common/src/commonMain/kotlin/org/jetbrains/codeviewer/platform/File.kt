@@ -13,3 +13,5 @@ interface File {
 
     fun readLines(scope: CoroutineScope): TextLines
 }
+
+expect fun FileDialog(title: String, selectDirectory: Boolean, onCloseRequest: (file: File?) -> Unit)

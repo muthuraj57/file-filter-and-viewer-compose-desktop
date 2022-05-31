@@ -1,5 +1,6 @@
 package org.jetbrains.codeviewer.ui
 
+import FileChangerView
 import androidx.compose.animation.core.Spring.StiffnessLow
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.animateDpAsState
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import org.jetbrains.codeviewer.platform.File
 import org.jetbrains.codeviewer.ui.editor.EditorEmptyView
 import org.jetbrains.codeviewer.ui.editor.EditorTabsView
 import org.jetbrains.codeviewer.ui.editor.EditorView
@@ -26,7 +28,7 @@ import org.jetbrains.codeviewer.util.SplitterState
 import org.jetbrains.codeviewer.util.VerticalSplittable
 
 @Composable
-fun CodeViewerView(model: CodeViewer) {
+fun CodeViewerView(model: CodeViewer, onFolderChange: (file: File?) -> Unit) {
     val panelState = remember { PanelState() }
 
     val animatedSize = if (panelState.splitter.isResizing) {
@@ -49,6 +51,7 @@ fun CodeViewerView(model: CodeViewer) {
         ResizablePanel(Modifier.width(animatedSize).fillMaxHeight(), panelState) {
             Column {
                 FileTreeViewTabView()
+                FileChangerView(onFolderChange = onFolderChange)
                 FileTreeView(model.fileTree)
             }
         }
